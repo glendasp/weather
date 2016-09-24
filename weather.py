@@ -1,21 +1,16 @@
-import sys
 import click
-
-from api.dummy import DummyAPI
+from external_api import *
 
 
 @click.command()
 @click.argument('zip_code')
 def main(zip_code):
     """Displays the current temperature for the specified zip code."""
-    
-    current_temp = DummyAPI().current_temp(zip_code)
+    city, state = get_city_state(zip_code)
+    click.echo('Fetching temperature for {}, {}'.format(city, state))
 
-    if current_temp is None:
-        click.echo('No information found for {}'.format(zip_code))
-        sys.exit()
-
-    click.echo('It is currently {} in {}'.format(current_temp, zip_code))
+    temperature = current_temperature('{},{}'.format(city, state))
+    click.echo('It is currently {}F'.format(temperature))
 
 
 if __name__ == '__main__':
