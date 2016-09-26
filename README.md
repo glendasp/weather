@@ -7,11 +7,10 @@ A command-line program written in Python to display information about the weathe
 You will probably want to do this inside a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
 
 ```
-virtualenv -p python3 venv
-. venv/bin/activate
+$ virtualenv -p python3 venv
+$ . venv/bin/activate
+$ pip install git+git://github.com/masonelmore/weather.git@mason-standalone
 ```
-
-`pip install git+git://github.com/masonelmore/weather.git@mason-standalone`
 
 ### API key
 You will need to sign up for an account at [OpenWeatherMap](http://openweathermap.org/) to get your API key.  weather looks for the key in the following order: 
