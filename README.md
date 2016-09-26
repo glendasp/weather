@@ -6,6 +6,11 @@ A command-line program written in Python to display information about the weathe
 ### Download and Install
 You will probably want to do this inside a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
 
+```
+virtualenv -p python3 venv
+. venv/bin/activate
+```
+
 `pip install git+git://github.com/masonelmore/weather.git@mason-standalone`
 
 ### API key
