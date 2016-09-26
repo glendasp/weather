@@ -1,19 +1,32 @@
+import sys
 import click
 from pyowm import OWM
 from lib import Ziptastic
-from api_keys import OWM_KEY
+from pyowm.exceptions.api_call_error import APICallError
+import api_keys
 
 
 @click.command()
 @click.option('--units', type=click.Choice(['celsius', 'fahrenheit']),
               default='celsius')
+@click.option('--api-key', help='API key for OpenWeatherMap')
 @click.argument('location')
-def main(location, units):
+def main(location, units, api_key):
     """Display the current weather forecast for a location.  Accepted formats
     for the location are: US postal code."""
 
+    if api_key is not None:
+        api_keys.set_key(api_key)
+
     city, state = get_city_state(location)
-    weather = get_weather(city, state)
+
+    try:
+        weather = get_weather(city, state)
+    except APICallError:
+        click.echo('An error occurred while connecting to OpenWeather Map.  '
+                   'Make sure your API key is valid.')
+        sys.exit()
+
     temperature_info = weather.get_temperature(units)
     # Display either C or F depending on the units.
     symbol = units[:1].upper()
@@ -44,7 +57,7 @@ def get_weather(city, state):
     # seems to work.  I don't think there are any two-character state codes
     # that clash with any countries.  We should probably expect bug reports,
     # though.
-    api = OWM(OWM_KEY)
+    api = OWM(api_keys.OWM)
     place = '{},{}'.format(city, state)
     observation = api.weather_at_place(place)
     weather = observation.get_weather()
