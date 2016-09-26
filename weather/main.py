@@ -6,6 +6,10 @@ from weather.lib import Ziptastic
 from weather import api_keys
 
 
+class PostalCodeNotFound(Exception):
+    """Raised when an invalid postal code is passed to the program."""
+
+
 @click.command()
 @click.option('--units', type=click.Choice(['celsius', 'fahrenheit']),
               default='celsius')
@@ -18,7 +22,11 @@ def main(location, units, api_key):
     if api_key is not None:
         api_keys.set_key(api_key)
 
-    city, state = get_city_state(location)
+    try:
+        city, state = get_city_state(location)
+    except PostalCodeNotFound:
+        click.echo('Error: "{}" is not a valid US postal code'.format(location))
+        sys.exit()
 
     try:
         weather = get_weather(city, state)
@@ -43,6 +51,10 @@ def get_city_state(postal_code):
 
     api = Ziptastic('')
     location = api.get_from_postal_code(postal_code)
+
+    if location.get('message', None) == 'Not Found':
+        raise PostalCodeNotFound
+
     city, state = location['city'], location['state']
 
     return city, state

@@ -7,7 +7,7 @@ def configuration_path():
         # Need to find a fallback if the env variable doesn't exist.
         base = os.environ.get('LOCALAPPDATA')
     else:
-        base = os.path.expanduser('~\.config')
+        base = os.path.expanduser('~/.config')
 
     if base is None:
         return
@@ -34,6 +34,8 @@ def load_from_file():
 def load_key():
     from_env = os.environ.get('OWM_API_KEY', None)
     from_file = load_from_file()
+
+    print
 
     return from_env or from_file or ''
 
