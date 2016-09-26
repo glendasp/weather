@@ -35,8 +35,6 @@ def load_key():
     from_env = os.environ.get('OWM_API_KEY', None)
     from_file = load_from_file()
 
-    print
-
     return from_env or from_file or ''
 
 
