@@ -1,9 +1,9 @@
 import sys
 import click
 from pyowm import OWM
-from lib import Ziptastic
 from pyowm.exceptions.api_call_error import APICallError
-import api_keys
+from weather.lib import Ziptastic
+from weather import api_keys
 
 
 @click.command()
