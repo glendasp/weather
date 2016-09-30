@@ -5,7 +5,8 @@ def load_requirements():
     with open('requirements.txt', 'r') as f:
         return [line.strip().split('==')[0] for line in f]
 
-
+# console-script means the CLI takes weather
+# as the argument and points to the main function as the entry point
 setup(
     name='weather',
     version='0.1',
