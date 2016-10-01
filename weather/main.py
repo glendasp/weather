@@ -18,6 +18,7 @@ def main(postal_code, units, api_key):
 
     try:
         forecaster = Forecaster(postal_code, units)
+        # forecaster displays weather. click echo expects a function that is used to display the weather
         forecaster.display_weather(click.echo)
     except PostalCodeNotFound:
         click.echo('Error:{} is not a valid US postal code'.format(postal_code))

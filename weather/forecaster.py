@@ -1,3 +1,4 @@
+from datetime import datetime
 from pyowm import OWM
 from weather.lib import Ziptastic
 from weather import api_keys
@@ -23,7 +24,7 @@ class Forecaster:
 
     def get_city_state(self):
         api = Ziptastic('')
-        #Location returns a json object
+        # Location returns a json object
         location = api.get_from_postal_code(self.postal_code)
         if location.get('message', None) == 'Not Found':
             raise PostalCodeNotFound
@@ -33,13 +34,19 @@ class Forecaster:
     def display_weather(self, print_func):
         temperature_info = self.weather.get_temperature(self.units)
         # Display either C or F depending on the units.
-        # slicing the unit string(celsius as default-> Returns 'C')
+        # slicing the unit string(celsius as default -> Returns 'C')
         symbol = self.units[:1].upper()
-        temperature = '{} °{}'.format(int(temperature_info['temp']), symbol)
+        temperature = '{}°{}'.format(int(temperature_info['temp']), symbol)
+        temp_max = '{}°{}'.format(int(temperature_info['temp_max']), symbol)
+        temp_min = '{}°{}'.format(int(temperature_info['temp_min']), symbol)
         status = self.weather.get_status()
-        print_func('Current weather for {}, {}'.format(self.city, self.state))
-        print_func('Temperature: {}'.format(temperature))
-        print_func('Status: {}'.format(status))
+        date = datetime.today().strftime('%A %B, %C')
+
+        print_func('\nToday is {}'.format(date))
+        print_func('{}, {}'.format(self.city, self.state))
+        print_func('\n\tTemperature: {}'.format(temperature))
+        print_func('\tMax: {} '.format(temp_max)+'| Min: {}'.format(temp_min))
+        print_func('\tStatus: {}'.format(status))
 
 
 class PostalCodeNotFound(Exception):
