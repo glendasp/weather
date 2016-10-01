@@ -7,22 +7,16 @@ A command-line program written in Python to display information about the weathe
 You will probably want to do this inside a [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/).
 
 ```
-$ virtualenv -p python3 venv
-$ . venv/bin/activate
-$ pip install git+git://github.com/masonelmore/weather.git@mason-standalone
+pip install git+git://github.com/masonelmore/weather.git
 ```
 
 ### API key
-You will need to sign up for an account at [OpenWeatherMap](http://openweathermap.org/) to get your API key.  weather looks for the key in the following order: 
+Sign up for an account at [OpenWeatherMap](http://openweathermap.org/) to get an API key.  weather will look for your key in these locations: 
 * the `--api-key` command line option
 * an environment variable named `OWM_API_KEY`
 * a "configuration" file
-
-Configuration file location:
-* Windows: `%LocalAppData%\weather-py\owm_key`
-* Linux/Mac: `~/.config/weather-py/owm_key`
-
-Put the key in that file with nothing else.
+  * Windows: `%LocalAppData%\weather-py\owm_key`
+  * Linux/Mac: `~/.config/weather-py/owm_key`
 
 ## Usage
 ```
